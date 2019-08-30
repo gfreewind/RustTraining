@@ -20,7 +20,7 @@ fn main() {
     let tx1 = mpsc::Sender::clone(&tx);
     thread::spawn(move || {
         let val = String::from("Hi, i'm a thread");
-        tx.send(val).unwrap();
+        tx1.send(val).unwrap();
         //println!("thread: now val is {}", val);
     });
 
@@ -30,13 +30,11 @@ fn main() {
     /* multiple sender, one receive */
     let tx2 = mpsc::Sender::clone(&tx);
     thread::spawn(move || {
-        let cnt = 3;
         let vals = vec![
             String::from("tx2: 1"),
             String::from("tx2: 2"),
             String::from("tx2: 3"),
         ];
-        tx2.send(cnt).unwrap();
         for val in vals {
             tx2.send(val).unwrap();
             thread::sleep(Duration::from_secs(1));
@@ -45,18 +43,17 @@ fn main() {
 
     let tx3 = mpsc::Sender::clone(&tx);
     thread::spawn(move || {
-        let cnt = 4;
         let vals = vec![
             String::from("tx3: 1"),
             String::from("tx3: 2"),
             String::from("tx3: 3"),
         ];
-        tx3.send(cnt).unwrap();
         for val in vals {
             tx3.send(val).unwrap();
             thread::sleep(Duration::from_secs(1));
         }
     });
+    drop(tx);
 
     for receive in rx {
         println!("main get: {}", receive);
