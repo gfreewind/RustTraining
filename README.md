@@ -1,2 +1,2 @@
 # RustTraining
-分享Rust培训代码
+分享Rust培训代码.
