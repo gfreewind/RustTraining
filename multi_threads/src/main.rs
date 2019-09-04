@@ -1,6 +1,8 @@
 use std::thread;
+use std::sync::Arc;
 use std::sync::mpsc;
 use std::time::Duration;
+use std::sync::Mutex;
 
 fn main() {
     let v = vec![1, 2, 3];
@@ -58,5 +60,35 @@ fn main() {
     for receive in rx {
         println!("main get: {}", receive);
     }
+
+    // mutex usage, never foget lock
+    #[derive(Debug)]
+    struct Test {
+        x: i32,
+        y: i32,
+    }
+    let m = Mutex::new(Test{x:1, y:2});
+    let mut t = m.lock().unwrap();
+    t.x = 2;
+    t.y = 3;
+    println!("t is {:?}", t);
+
+    //mutex with multiple threads
+    let counter = Arc::new(Mutex::new(0));
+    let mut thrs = vec![];
+
+    for _ in 0..10 {
+        let thr_ounter = Arc::clone(&counter);
+        let thr = thread::spawn(move || {
+            let mut nr = thr_ounter.lock().unwrap();
+            *nr = *nr + 1;
+        });
+        thrs.push(thr);
+    }
+
+    for thr in thrs {
+        thr.join().unwrap();
+    }
+    println!("Count is {}", counter.lock().unwrap());
 
 }
