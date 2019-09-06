@@ -1,5 +1,7 @@
 fn main() {
     // implicit lifetime
+    println!("*********************** example1 *****************************");
+    
     /*
     let r;
     {
@@ -10,25 +12,29 @@ fn main() {
     */
 
     // explicit lifetime
+    println!("*********************** example2 *****************************");
     let str1 = String::from("long_str");
     {
         let str2 = String::from("short");
-        let result = longer_str(&str1, &str2);
+        //let result = longer_str(&str1, &str2);
+        let result = longer_str2(&str1, &str2);
 
         println!("result is {}", result);
     }
 
     // explicit lifetime check 1
+    println!("*********************** example3 *****************************");
     /*
     let result;
     {
         let str2 = String::from("short");
-        result = longer_str(&str1, &str2);
+        result = longer_str2(&str1, &str2);
     }
     println!("result is {}", result);
     */
 
     /* different lifetime */
+    println!("*********************** example4 *****************************");
     let result2;
     {
         let str2 = String::from("short");
@@ -37,6 +43,7 @@ fn main() {
     println!("result2 is {}", result2);
 
     /* struct lifetime */
+    println!("*********************** example5 *****************************");
     #[derive(Debug)]
     struct LifeStruct <'a> {
         x: &'a i32,
@@ -53,6 +60,7 @@ fn main() {
     println!{"ls is {:?}", ls};
 
     /* static lifetime */
+    println!("*********************** example6 *****************************");
     let s1 = "hello";
     let mut ret = static_str(&s1);
     println!("ret is {}", ret);
@@ -73,7 +81,8 @@ fn longer_str(x:&String, y:&String) -> &String {
 }
 */
 
-fn longer_str<'a>(x:&'a String, y:&'a String) -> &'a String {
+
+fn longer_str2<'a>(x:&'a String, y:&'a String) -> &'a String {
     if x.len() > y.len() {
         x
     } else {

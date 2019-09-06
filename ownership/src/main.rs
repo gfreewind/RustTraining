@@ -1,5 +1,6 @@
 fn main() {
     // ownership out of scope
+    println!("*********************** example1 *****************************");
     {
         let s = "hello";
 
@@ -8,12 +9,14 @@ fn main() {
     //println!("s is {}", s);
 
     // ownership moved
+    println!("*********************** example2 *****************************");
     let s1 = String::from("hello");
     let s2 = s1;
     //println!("s1 is {}, s2 is {}", s1, s2);
     println!("s2 is {}", s2);
 
     // clone
+    println!("*********************** example3 *****************************");
     let x = 5;
     let y = x;
     println!("x is {}, y is {}", x, y);
@@ -24,6 +27,7 @@ fn main() {
     }
 
     // move example2
+    println!("*********************** example4 *****************************");
     let mut s3 = String::from("hello");
     //show_str(s3);
     s3 = show_str2(s3);
@@ -31,12 +35,14 @@ fn main() {
     println!("s3 is {}", s3);
 
     // double mut referenc
+    println!("*********************** example5 *****************************");
     let r1 = &s3;
     let r2 = &s3;
     //let r2 = &mut s3;
     println!("r1 is {}, r2 is {}", r1, r2);
 
     // dangle pointer
+    println!("*********************** example6 *****************************");
     let s4 = no_dangle_ref();
     //let s4 = dangle_ref();
     println!("s4 is {}", s4);
@@ -52,6 +58,7 @@ fn show_str2(s:String) -> String {
     s
 }
 
+#[allow(dead_code)]
 fn show_str3(s: &String) {
     println!("s is {}", s);
 }

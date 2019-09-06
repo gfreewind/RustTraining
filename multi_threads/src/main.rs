@@ -9,6 +9,7 @@ fn main() {
     println!("vec is {:?}", v);
 
     /* ownership check */
+    println!("*********************** example1 *****************************");
     //let thr = thread::spawn({
     let thr = thread::spawn(move || {
         println!("thread print vec is {:?}", v);
@@ -18,6 +19,7 @@ fn main() {
     thr.join().unwrap();
 
     /* channel & ownership */
+    println!("*********************** example2 *****************************");
     let (tx, rx) = mpsc::channel();
     let tx1 = mpsc::Sender::clone(&tx);
     thread::spawn(move || {
@@ -30,6 +32,7 @@ fn main() {
     println!("main receive: {}", val);
 
     /* multiple sender, one receive */
+    println!("*********************** example3 *****************************");
     let tx2 = mpsc::Sender::clone(&tx);
     thread::spawn(move || {
         let vals = vec![
@@ -62,6 +65,7 @@ fn main() {
     }
 
     // mutex usage, never foget lock
+    println!("*********************** example4 *****************************");
     #[derive(Debug)]
     struct Test {
         x: i32,
@@ -74,6 +78,7 @@ fn main() {
     println!("t is {:?}", t);
 
     //mutex with multiple threads
+    println!("*********************** example5 *****************************");
     let counter = Arc::new(Mutex::new(0));
     let mut thrs = vec![];
 
